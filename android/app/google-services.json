@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "569533529552",
+    "project_id": "hayhom-c88ac",
+    "storage_bucket": "hayhom-c88ac.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:569533529552:android:a2339f1ba60bf3cf3dcdd5",
+        "android_client_info": {
+          "package_name": "com.mycompany.hayhom"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBxKSC0703ScUXDnfkDqu3KJJuZUXj_OOw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
