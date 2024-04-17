@@ -5,34 +5,35 @@ import 'package:flutter/material.dart';
 class CreateAccountPageModel extends FlutterFlowModel<CreateAccountPageWidget> {
   ///  State fields for stateful widgets in this page.
 
-  // State field(s) for TextField widget.
-  FocusNode? textFieldFocusNode1;
-  TextEditingController? textController1;
-  String? Function(BuildContext, String?)? textController1Validator;
-  // State field(s) for TextField widget.
-  FocusNode? textFieldFocusNode2;
-  TextEditingController? textController2;
-  String? Function(BuildContext, String?)? textController2Validator;
-  // State field(s) for TextField widget.
-  FocusNode? textFieldFocusNode3;
-  TextEditingController? textController3;
-  late bool passwordVisibility;
-  String? Function(BuildContext, String?)? textController3Validator;
+  // State field(s) for username widget.
+  FocusNode? usernameFocusNode;
+  TextEditingController? usernameTextController;
+  String? Function(BuildContext, String?)? usernameTextControllerValidator;
+  // State field(s) for emailSignup widget.
+  FocusNode? emailSignupFocusNode;
+  TextEditingController? emailSignupTextController;
+  String? Function(BuildContext, String?)? emailSignupTextControllerValidator;
+  // State field(s) for passwordSignup widget.
+  FocusNode? passwordSignupFocusNode;
+  TextEditingController? passwordSignupTextController;
+  late bool passwordSignupVisibility;
+  String? Function(BuildContext, String?)?
+      passwordSignupTextControllerValidator;
 
   @override
   void initState(BuildContext context) {
-    passwordVisibility = false;
+    passwordSignupVisibility = false;
   }
 
   @override
   void dispose() {
-    textFieldFocusNode1?.dispose();
-    textController1?.dispose();
+    usernameFocusNode?.dispose();
+    usernameTextController?.dispose();
 
-    textFieldFocusNode2?.dispose();
-    textController2?.dispose();
+    emailSignupFocusNode?.dispose();
+    emailSignupTextController?.dispose();
 
-    textFieldFocusNode3?.dispose();
-    textController3?.dispose();
+    passwordSignupFocusNode?.dispose();
+    passwordSignupTextController?.dispose();
   }
 }

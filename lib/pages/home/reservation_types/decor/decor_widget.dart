@@ -4,30 +4,30 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'catering_model.dart';
-export 'catering_model.dart';
+import 'decor_model.dart';
+export 'decor_model.dart';
 
-class CateringWidget extends StatefulWidget {
-  const CateringWidget({
+class DecorWidget extends StatefulWidget {
+  const DecorWidget({
     super.key,
-    this.text,
+    required this.sp,
   });
 
-  final DocumentReference? text;
+  final DocumentReference? sp;
 
   @override
-  State<CateringWidget> createState() => _CateringWidgetState();
+  State<DecorWidget> createState() => _DecorWidgetState();
 }
 
-class _CateringWidgetState extends State<CateringWidget> {
-  late CateringModel _model;
+class _DecorWidgetState extends State<DecorWidget> {
+  late DecorModel _model;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
     super.initState();
-    _model = createModel(context, () => CateringModel());
+    _model = createModel(context, () => DecorModel());
   }
 
   @override
@@ -44,15 +44,15 @@ class _CateringWidgetState extends State<CateringWidget> {
         queryBuilder: (serviceRecord) => serviceRecord.where(Filter.or(
           Filter(
             'ServiceID',
-            isEqualTo: 'c1',
+            isEqualTo: 'd1',
           ),
           Filter(
             'ServiceID',
-            isEqualTo: 'c2',
+            isEqualTo: 'd2',
           ),
           Filter(
             'ServiceID',
-            isEqualTo: 'c3',
+            isEqualTo: 'd3',
           ),
         )),
       ),
@@ -73,7 +73,7 @@ class _CateringWidgetState extends State<CateringWidget> {
             ),
           );
         }
-        List<ServiceRecord> cateringServiceRecordList = snapshot.data!;
+        List<ServiceRecord> decorServiceRecordList = snapshot.data!;
         return GestureDetector(
           onTap: () => _model.unfocusNode.canRequestFocus
               ? FocusScope.of(context).requestFocus(_model.unfocusNode)
@@ -99,7 +99,7 @@ class _CateringWidgetState extends State<CateringWidget> {
                 },
               ),
               title: Text(
-                'Catering',
+                'Decor',
                 style: FlutterFlowTheme.of(context).headlineMedium.override(
                       fontFamily: 'Outfit',
                       color: Colors.white,
@@ -115,7 +115,7 @@ class _CateringWidgetState extends State<CateringWidget> {
               top: true,
               child: Builder(
                 builder: (context) {
-                  final cateringVar = cateringServiceRecordList.toList();
+                  final decorVar = decorServiceRecordList.toList();
                   return InkWell(
                     splashColor: Colors.transparent,
                     focusColor: Colors.transparent,
@@ -131,9 +131,9 @@ class _CateringWidgetState extends State<CateringWidget> {
                     child: ListView.builder(
                       padding: EdgeInsets.zero,
                       scrollDirection: Axis.vertical,
-                      itemCount: cateringVar.length,
-                      itemBuilder: (context, cateringVarIndex) {
-                        final cateringVarItem = cateringVar[cateringVarIndex];
+                      itemCount: decorVar.length,
+                      itemBuilder: (context, decorVarIndex) {
+                        final decorVarItem = decorVar[decorVarIndex];
                         return Padding(
                           padding: const EdgeInsetsDirectional.fromSTEB(
                               16.0, 12.0, 16.0, 12.0),
@@ -147,11 +147,11 @@ class _CateringWidgetState extends State<CateringWidget> {
                                 'reservationPage',
                                 queryParameters: {
                                   'sInfo': serializeParam(
-                                    cateringVarItem.reference,
+                                    decorVarItem.reference,
                                     ParamType.DocumentReference,
                                   ),
                                   'sp': serializeParam(
-                                    cateringVarItem.serviceProviderName,
+                                    decorVarItem.serviceProviderName,
                                     ParamType.DocumentReference,
                                   ),
                                 }.withoutNulls,
@@ -176,7 +176,7 @@ class _CateringWidgetState extends State<CateringWidget> {
                               ),
                               child: StreamBuilder<ServiceProviderRecord>(
                                 stream: ServiceProviderRecord.getDocument(
-                                    cateringVarItem.serviceProviderName!),
+                                    decorVarItem.serviceProviderName!),
                                 builder: (context, snapshot) {
                                   // Customize what your widget looks like when it's loading.
                                   if (!snapshot.hasData) {
@@ -203,7 +203,7 @@ class _CateringWidgetState extends State<CateringWidget> {
                                           topRight: Radius.circular(0.0),
                                         ),
                                         child: Image.network(
-                                          cateringVarItem.logo,
+                                          decorVarItem.logo,
                                           width: 120.0,
                                           height: 100.0,
                                           fit: BoxFit.cover,
@@ -222,7 +222,7 @@ class _CateringWidgetState extends State<CateringWidget> {
                                             Text(
                                               valueOrDefault<String>(
                                                 stackServiceProviderRecord.name,
-                                                'spN',
+                                                'sp',
                                               ),
                                               style: FlutterFlowTheme.of(
                                                       context)
@@ -256,7 +256,7 @@ class _CateringWidgetState extends State<CateringWidget> {
                                                   Flexible(
                                                     child: Text(
                                                       valueOrDefault<String>(
-                                                        cateringVarItem
+                                                        decorVarItem
                                                             .serviceName,
                                                         'price',
                                                       ),
@@ -289,7 +289,7 @@ class _CateringWidgetState extends State<CateringWidget> {
                                                 ),
                                                 Text(
                                                   valueOrDefault<String>(
-                                                    cateringVarItem.servicePrice
+                                                    decorVarItem.servicePrice
                                                         .toString(),
                                                     'price',
                                                   ),

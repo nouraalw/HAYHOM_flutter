@@ -86,7 +86,20 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           path: '/reservation',
           builder: (context, params) => params.isEmpty
               ? const NavBarPage(initialPage: 'Reservation')
-              : const ReservationWidget(),
+              : ReservationWidget(
+                  serN: params.getParam(
+                    'serN',
+                    ParamType.DocumentReference,
+                    false,
+                    ['Service'],
+                  ),
+                  serPn: params.getParam(
+                    'serPn',
+                    ParamType.DocumentReference,
+                    false,
+                    ['Service_provider'],
+                  ),
+                ),
         ),
         FFRoute(
           name: 'Account',
@@ -112,49 +125,58 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           builder: (context, params) => const CreateAccountPageWidget(),
         ),
         FFRoute(
-          name: 'catering',
-          path: '/catering',
-          builder: (context, params) => const CateringWidget(),
-        ),
-        FFRoute(
-          name: 'hairstylist',
-          path: '/hairstylist',
-          builder: (context, params) => const HairstylistWidget(),
-        ),
-        FFRoute(
-          name: 'photographers',
-          path: '/photographers',
-          builder: (context, params) => const PhotographersWidget(),
-        ),
-        FFRoute(
-          name: 'makeupArtist',
-          path: '/makeupArtist',
-          builder: (context, params) => const MakeupArtistWidget(),
-        ),
-        FFRoute(
-          name: 'sababat',
-          path: '/sababat',
-          builder: (context, params) => const SababatWidget(),
-        ),
-        FFRoute(
           name: 'reservationPage',
           path: '/reservationPage',
-          builder: (context, params) => const ReservationPageWidget(),
-        ),
-        FFRoute(
-          name: 'decore',
-          path: '/decore',
-          builder: (context, params) => const DecoreWidget(),
+          builder: (context, params) => ReservationPageWidget(
+            sInfo: params.getParam(
+              'sInfo',
+              ParamType.DocumentReference,
+              false,
+              ['Service'],
+            ),
+            sp: params.getParam(
+              'sp',
+              ParamType.DocumentReference,
+              false,
+              ['Service_provider'],
+            ),
+          ),
         ),
         FFRoute(
           name: 'reservationInf',
           path: '/reservationInf',
-          builder: (context, params) => const ReservationInfWidget(),
+          builder: (context, params) => ReservationInfWidget(
+            rDetails: params.getParam(
+              'rDetails',
+              ParamType.DocumentReference,
+              false,
+              ['Service'],
+            ),
+            spn: params.getParam(
+              'spn',
+              ParamType.DocumentReference,
+              false,
+              ['Service_provider'],
+            ),
+          ),
         ),
         FFRoute(
           name: 'confirmationPage',
           path: '/confirmationPage',
-          builder: (context, params) => const ConfirmationPageWidget(),
+          builder: (context, params) => ConfirmationPageWidget(
+            resInfo: params.getParam(
+              'resInfo',
+              ParamType.DocumentReference,
+              false,
+              ['Service'],
+            ),
+            spn: params.getParam(
+              'spn',
+              ParamType.DocumentReference,
+              false,
+              ['Service_provider'],
+            ),
+          ),
         ),
         FFRoute(
           name: 'Explore',
@@ -164,9 +186,76 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               : const ExploreWidget(),
         ),
         FFRoute(
-          name: 'editProfile',
-          path: '/editProfile',
-          builder: (context, params) => const EditProfileWidget(),
+          name: 'Catering',
+          path: '/catering',
+          builder: (context, params) => CateringWidget(
+            text: params.getParam(
+              'text',
+              ParamType.DocumentReference,
+              false,
+              ['Service_provider'],
+            ),
+          ),
+        ),
+        FFRoute(
+          name: 'decor',
+          path: '/decor',
+          builder: (context, params) => DecorWidget(
+            sp: params.getParam(
+              'sp',
+              ParamType.DocumentReference,
+              false,
+              ['Service_provider'],
+            ),
+          ),
+        ),
+        FFRoute(
+          name: 'hairstylist',
+          path: '/hairstylist',
+          builder: (context, params) => HairstylistWidget(
+            sp: params.getParam(
+              'sp',
+              ParamType.DocumentReference,
+              false,
+              ['Service_provider'],
+            ),
+          ),
+        ),
+        FFRoute(
+          name: 'makeupArtist',
+          path: '/makeupArtist',
+          builder: (context, params) => MakeupArtistWidget(
+            sp: params.getParam(
+              'sp',
+              ParamType.DocumentReference,
+              false,
+              ['Service_provider'],
+            ),
+          ),
+        ),
+        FFRoute(
+          name: 'photographers',
+          path: '/photographers',
+          builder: (context, params) => PhotographersWidget(
+            sp: params.getParam(
+              'sp',
+              ParamType.DocumentReference,
+              false,
+              ['Service_provider'],
+            ),
+          ),
+        ),
+        FFRoute(
+          name: 'sababat',
+          path: '/sababat',
+          builder: (context, params) => SababatWidget(
+            sp: params.getParam(
+              'sp',
+              ParamType.DocumentReference,
+              false,
+              ['Service_provider'],
+            ),
+          ),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );
@@ -243,7 +332,7 @@ extension _GoRouterStateExtensions on GoRouterState {
       extra != null ? extra as Map<String, dynamic> : {};
   Map<String, dynamic> get allParams => <String, dynamic>{}
     ..addAll(pathParameters)
-    ..addAll(queryParameters)
+    ..addAll(uri.queryParameters)
     ..addAll(extraMap);
   TransitionInfo get transitionInfo => extraMap.containsKey(kTransitionInfoKey)
       ? extraMap[kTransitionInfoKey] as TransitionInfo
@@ -336,7 +425,7 @@ class FFRoute {
           }
 
           if (requireAuth && !appStateNotifier.loggedIn) {
-            appStateNotifier.setRedirectLocationIfUnset(state.location);
+            appStateNotifier.setRedirectLocationIfUnset(state.uri.toString());
             return '/loginPage';
           }
           return null;
@@ -414,7 +503,7 @@ class RootPageContext {
   static bool isInactiveRootPage(BuildContext context) {
     final rootPageContext = context.read<RootPageContext?>();
     final isRootPage = rootPageContext?.isRootPage ?? false;
-    final location = GoRouter.of(context).location;
+    final location = GoRouterState.of(context).uri.toString();
     return isRootPage &&
         location != '/' &&
         location != rootPageContext?.errorRoute;

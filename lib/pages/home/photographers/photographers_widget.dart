@@ -4,11 +4,11 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'hairstylist_model.dart';
-export 'hairstylist_model.dart';
+import 'photographers_model.dart';
+export 'photographers_model.dart';
 
-class HairstylistWidget extends StatefulWidget {
-  const HairstylistWidget({
+class PhotographersWidget extends StatefulWidget {
+  const PhotographersWidget({
     super.key,
     required this.sp,
   });
@@ -16,18 +16,18 @@ class HairstylistWidget extends StatefulWidget {
   final DocumentReference? sp;
 
   @override
-  State<HairstylistWidget> createState() => _HairstylistWidgetState();
+  State<PhotographersWidget> createState() => _PhotographersWidgetState();
 }
 
-class _HairstylistWidgetState extends State<HairstylistWidget> {
-  late HairstylistModel _model;
+class _PhotographersWidgetState extends State<PhotographersWidget> {
+  late PhotographersModel _model;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
     super.initState();
-    _model = createModel(context, () => HairstylistModel());
+    _model = createModel(context, () => PhotographersModel());
   }
 
   @override
@@ -60,11 +60,11 @@ class _HairstylistWidgetState extends State<HairstylistWidget> {
               size: 30.0,
             ),
             onPressed: () async {
-              context.pop();
+              context.pushNamed('home');
             },
           ),
           title: Text(
-            'Hair stylists',
+            'Photographers',
             style: FlutterFlowTheme.of(context).headlineMedium.override(
                   fontFamily: 'Outfit',
                   color: Colors.white,
@@ -83,15 +83,15 @@ class _HairstylistWidgetState extends State<HairstylistWidget> {
               queryBuilder: (serviceRecord) => serviceRecord.where(Filter.or(
                 Filter(
                   'ServiceID',
-                  isEqualTo: 'h1',
+                  isEqualTo: 'p1',
                 ),
                 Filter(
                   'ServiceID',
-                  isEqualTo: 'h2',
+                  isEqualTo: 'p2',
                 ),
                 Filter(
                   'ServiceID',
-                  isEqualTo: 'h3',
+                  isEqualTo: 'p3',
                 ),
               )),
             ),

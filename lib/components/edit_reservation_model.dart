@@ -1,11 +1,10 @@
 import '/flutter_flow/flutter_flow_util.dart';
-import 'reservation_inf_widget.dart' show ReservationInfWidget;
+import 'edit_reservation_widget.dart' show EditReservationWidget;
 import 'package:flutter/material.dart';
 
-class ReservationInfModel extends FlutterFlowModel<ReservationInfWidget> {
-  ///  State fields for stateful widgets in this page.
+class EditReservationModel extends FlutterFlowModel<EditReservationWidget> {
+  ///  State fields for stateful widgets in this component.
 
-  final unfocusNode = FocusNode();
   // State field(s) for date widget.
   FocusNode? dateFocusNode;
   TextEditingController? dateTextController;
@@ -24,7 +23,6 @@ class ReservationInfModel extends FlutterFlowModel<ReservationInfWidget> {
 
   @override
   void dispose() {
-    unfocusNode.dispose();
     dateFocusNode?.dispose();
     dateTextController?.dispose();
 

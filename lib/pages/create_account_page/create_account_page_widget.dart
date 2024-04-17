@@ -1,7 +1,11 @@
+import '/auth/firebase_auth/auth_util.dart';
+import '/backend/backend.dart';
+import '/flutter_flow/flutter_flow_animations.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'create_account_page_model.dart';
@@ -15,24 +19,42 @@ class CreateAccountPageWidget extends StatefulWidget {
       _CreateAccountPageWidgetState();
 }
 
-class _CreateAccountPageWidgetState extends State<CreateAccountPageWidget> {
+class _CreateAccountPageWidgetState extends State<CreateAccountPageWidget>
+    with TickerProviderStateMixin {
   late CreateAccountPageModel _model;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
+
+  final animationsMap = <String, AnimationInfo>{};
 
   @override
   void initState() {
     super.initState();
     _model = createModel(context, () => CreateAccountPageModel());
 
-    _model.textController1 ??= TextEditingController();
-    _model.textFieldFocusNode1 ??= FocusNode();
+    _model.usernameTextController ??= TextEditingController();
+    _model.usernameFocusNode ??= FocusNode();
 
-    _model.textController2 ??= TextEditingController();
-    _model.textFieldFocusNode2 ??= FocusNode();
+    _model.emailSignupTextController ??= TextEditingController();
+    _model.emailSignupFocusNode ??= FocusNode();
 
-    _model.textController3 ??= TextEditingController();
-    _model.textFieldFocusNode3 ??= FocusNode();
+    _model.passwordSignupTextController ??= TextEditingController();
+    _model.passwordSignupFocusNode ??= FocusNode();
+
+    animationsMap.addAll({
+      'stackOnPageLoadAnimation': AnimationInfo(
+        trigger: AnimationTrigger.onPageLoad,
+        effectsBuilder: () => [
+          FadeEffect(
+            curve: Curves.easeInOut,
+            delay: 0.0.ms,
+            duration: 600.0.ms,
+            begin: 0.0,
+            end: 1.0,
+          ),
+        ],
+      ),
+    });
   }
 
   @override
@@ -121,8 +143,9 @@ class _CreateAccountPageWidgetState extends State<CreateAccountPageWidget> {
                                         padding: const EdgeInsetsDirectional.fromSTEB(
                                             20.0, 0.0, 20.0, 0.0),
                                         child: TextFormField(
-                                          controller: _model.textController1,
-                                          focusNode: _model.textFieldFocusNode1,
+                                          controller:
+                                              _model.usernameTextController,
+                                          focusNode: _model.usernameFocusNode,
                                           obscureText: false,
                                           decoration: InputDecoration(
                                             hintText: 'Username',
@@ -182,9 +205,8 @@ class _CreateAccountPageWidgetState extends State<CreateAccountPageWidget> {
                                             color: const Color(0xFF455A64),
                                             fontWeight: FontWeight.normal,
                                           ),
-                                          minLines: null,
                                           validator: _model
-                                              .textController1Validator
+                                              .usernameTextControllerValidator
                                               .asValidator(context),
                                         ),
                                       ),
@@ -205,8 +227,10 @@ class _CreateAccountPageWidgetState extends State<CreateAccountPageWidget> {
                                         padding: const EdgeInsetsDirectional.fromSTEB(
                                             20.0, 0.0, 20.0, 0.0),
                                         child: TextFormField(
-                                          controller: _model.textController2,
-                                          focusNode: _model.textFieldFocusNode2,
+                                          controller:
+                                              _model.emailSignupTextController,
+                                          focusNode:
+                                              _model.emailSignupFocusNode,
                                           obscureText: false,
                                           decoration: InputDecoration(
                                             hintText: 'Email',
@@ -266,9 +290,8 @@ class _CreateAccountPageWidgetState extends State<CreateAccountPageWidget> {
                                             color: const Color(0xFF455A64),
                                             fontWeight: FontWeight.normal,
                                           ),
-                                          minLines: null,
                                           validator: _model
-                                              .textController2Validator
+                                              .emailSignupTextControllerValidator
                                               .asValidator(context),
                                         ),
                                       ),
@@ -289,10 +312,12 @@ class _CreateAccountPageWidgetState extends State<CreateAccountPageWidget> {
                                         padding: const EdgeInsetsDirectional.fromSTEB(
                                             20.0, 0.0, 20.0, 0.0),
                                         child: TextFormField(
-                                          controller: _model.textController3,
-                                          focusNode: _model.textFieldFocusNode3,
+                                          controller: _model
+                                              .passwordSignupTextController,
+                                          focusNode:
+                                              _model.passwordSignupFocusNode,
                                           obscureText:
-                                              !_model.passwordVisibility,
+                                              !_model.passwordSignupVisibility,
                                           decoration: InputDecoration(
                                             hintText: 'Password',
                                             hintStyle: GoogleFonts.getFont(
@@ -348,13 +373,14 @@ class _CreateAccountPageWidgetState extends State<CreateAccountPageWidget> {
                                             suffixIcon: InkWell(
                                               onTap: () => setState(
                                                 () => _model
-                                                        .passwordVisibility =
-                                                    !_model.passwordVisibility,
+                                                        .passwordSignupVisibility =
+                                                    !_model
+                                                        .passwordSignupVisibility,
                                               ),
                                               focusNode: FocusNode(
                                                   skipTraversal: true),
                                               child: Icon(
-                                                _model.passwordVisibility
+                                                _model.passwordSignupVisibility
                                                     ? Icons.visibility_outlined
                                                     : Icons
                                                         .visibility_off_outlined,
@@ -367,9 +393,8 @@ class _CreateAccountPageWidgetState extends State<CreateAccountPageWidget> {
                                             color: const Color(0xFF455A64),
                                             fontWeight: FontWeight.normal,
                                           ),
-                                          minLines: null,
                                           validator: _model
-                                              .textController3Validator
+                                              .passwordSignupTextControllerValidator
                                               .asValidator(context),
                                         ),
                                       ),
@@ -380,7 +405,31 @@ class _CreateAccountPageWidgetState extends State<CreateAccountPageWidget> {
                                         0.0, 0.0, 0.0, 20.0),
                                     child: FFButtonWidget(
                                       onPressed: () async {
-                                        context.pushNamed('home');
+                                        GoRouter.of(context).prepareAuthEvent();
+
+                                        final user = await authManager
+                                            .createAccountWithEmail(
+                                          context,
+                                          _model.emailSignupTextController.text,
+                                          _model.passwordSignupTextController
+                                              .text,
+                                        );
+                                        if (user == null) {
+                                          return;
+                                        }
+
+                                        await UserRecord.collection
+                                            .doc(user.uid)
+                                            .update(createUserRecordData(
+                                              displayName: _model
+                                                  .usernameTextController.text,
+                                              password: _model
+                                                  .passwordSignupTextController
+                                                  .text,
+                                            ));
+
+                                        context.pushNamedAuth(
+                                            'home', context.mounted);
                                       },
                                       text: 'Sign up',
                                       options: FFButtonOptions(
@@ -440,7 +489,7 @@ class _CreateAccountPageWidgetState extends State<CreateAccountPageWidget> {
             ),
           ),
         ],
-      ),
+      ).animateOnPageLoad(animationsMap['stackOnPageLoadAnimation']!),
     );
   }
 }

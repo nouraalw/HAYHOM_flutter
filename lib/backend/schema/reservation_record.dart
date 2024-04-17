@@ -20,20 +20,10 @@ class ReservationRecord extends FirestoreRecord {
   String get location => _location ?? '';
   bool hasLocation() => _location != null;
 
-  // "ReservationDate" field.
-  String? _reservationDate;
-  String get reservationDate => _reservationDate ?? '';
-  bool hasReservationDate() => _reservationDate != null;
-
   // "ReservationID" field.
   String? _reservationID;
   String get reservationID => _reservationID ?? '';
   bool hasReservationID() => _reservationID != null;
-
-  // "ReservationTime" field.
-  String? _reservationTime;
-  String get reservationTime => _reservationTime ?? '';
-  bool hasReservationTime() => _reservationTime != null;
 
   // "ServiceID" field.
   DocumentReference? _serviceID;
@@ -45,13 +35,23 @@ class ReservationRecord extends FirestoreRecord {
   DocumentReference? get userID => _userID;
   bool hasUserID() => _userID != null;
 
+  // "ReservationTime" field.
+  String? _reservationTime;
+  String get reservationTime => _reservationTime ?? '';
+  bool hasReservationTime() => _reservationTime != null;
+
+  // "ReservationDate" field.
+  String? _reservationDate;
+  String get reservationDate => _reservationDate ?? '';
+  bool hasReservationDate() => _reservationDate != null;
+
   void _initializeFields() {
     _location = snapshotData['Location'] as String?;
-    _reservationDate = snapshotData['ReservationDate'] as String?;
     _reservationID = snapshotData['ReservationID'] as String?;
-    _reservationTime = snapshotData['ReservationTime'] as String?;
     _serviceID = snapshotData['ServiceID'] as DocumentReference?;
     _userID = snapshotData['UserID'] as DocumentReference?;
+    _reservationTime = snapshotData['ReservationTime'] as String?;
+    _reservationDate = snapshotData['ReservationDate'] as String?;
   }
 
   static CollectionReference get collection =>
@@ -90,20 +90,20 @@ class ReservationRecord extends FirestoreRecord {
 
 Map<String, dynamic> createReservationRecordData({
   String? location,
-  String? reservationDate,
   String? reservationID,
-  String? reservationTime,
   DocumentReference? serviceID,
   DocumentReference? userID,
+  String? reservationTime,
+  String? reservationDate,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
       'Location': location,
-      'ReservationDate': reservationDate,
       'ReservationID': reservationID,
-      'ReservationTime': reservationTime,
       'ServiceID': serviceID,
       'UserID': userID,
+      'ReservationTime': reservationTime,
+      'ReservationDate': reservationDate,
     }.withoutNulls,
   );
 
@@ -116,21 +116,21 @@ class ReservationRecordDocumentEquality implements Equality<ReservationRecord> {
   @override
   bool equals(ReservationRecord? e1, ReservationRecord? e2) {
     return e1?.location == e2?.location &&
-        e1?.reservationDate == e2?.reservationDate &&
         e1?.reservationID == e2?.reservationID &&
-        e1?.reservationTime == e2?.reservationTime &&
         e1?.serviceID == e2?.serviceID &&
-        e1?.userID == e2?.userID;
+        e1?.userID == e2?.userID &&
+        e1?.reservationTime == e2?.reservationTime &&
+        e1?.reservationDate == e2?.reservationDate;
   }
 
   @override
   int hash(ReservationRecord? e) => const ListEquality().hash([
         e?.location,
-        e?.reservationDate,
         e?.reservationID,
-        e?.reservationTime,
         e?.serviceID,
-        e?.userID
+        e?.userID,
+        e?.reservationTime,
+        e?.reservationDate
       ]);
 
   @override
