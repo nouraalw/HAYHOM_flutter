@@ -203,7 +203,7 @@ class _CateringWidgetState extends State<CateringWidget> {
                                           topRight: Radius.circular(0.0),
                                         ),
                                         child: Image.network(
-                                          cateringVarItem.logo,
+                                          stackServiceProviderRecord.logo,
                                           width: 120.0,
                                           height: 100.0,
                                           fit: BoxFit.cover,

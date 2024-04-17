@@ -30,10 +30,16 @@ class ServiceProviderRecord extends FirestoreRecord {
   String get type => _type ?? '';
   bool hasType() => _type != null;
 
+  // "logo" field.
+  String? _logo;
+  String get logo => _logo ?? '';
+  bool hasLogo() => _logo != null;
+
   void _initializeFields() {
     _location = snapshotData['Location'] as String?;
     _name = snapshotData['Name'] as String?;
     _type = snapshotData['Type'] as String?;
+    _logo = snapshotData['logo'] as String?;
   }
 
   static CollectionReference get collection =>
@@ -74,12 +80,14 @@ Map<String, dynamic> createServiceProviderRecordData({
   String? location,
   String? name,
   String? type,
+  String? logo,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
       'Location': location,
       'Name': name,
       'Type': type,
+      'logo': logo,
     }.withoutNulls,
   );
 
@@ -94,12 +102,13 @@ class ServiceProviderRecordDocumentEquality
   bool equals(ServiceProviderRecord? e1, ServiceProviderRecord? e2) {
     return e1?.location == e2?.location &&
         e1?.name == e2?.name &&
-        e1?.type == e2?.type;
+        e1?.type == e2?.type &&
+        e1?.logo == e2?.logo;
   }
 
   @override
   int hash(ServiceProviderRecord? e) =>
-      const ListEquality().hash([e?.location, e?.name, e?.type]);
+      const ListEquality().hash([e?.location, e?.name, e?.type, e?.logo]);
 
   @override
   bool isValidKey(Object? o) => o is ServiceProviderRecord;

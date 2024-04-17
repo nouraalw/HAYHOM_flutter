@@ -197,7 +197,7 @@ class _SababatWidgetState extends State<SababatWidget> {
                                       topRight: Radius.circular(0.0),
                                     ),
                                     child: Image.network(
-                                      listViewServiceRecord.logo,
+                                      stackServiceProviderRecord.logo,
                                       width: 120.0,
                                       height: 100.0,
                                       fit: BoxFit.cover,

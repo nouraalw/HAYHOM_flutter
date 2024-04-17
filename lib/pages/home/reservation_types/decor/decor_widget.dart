@@ -203,7 +203,7 @@ class _DecorWidgetState extends State<DecorWidget> {
                                           topRight: Radius.circular(0.0),
                                         ),
                                         child: Image.network(
-                                          decorVarItem.logo,
+                                          stackServiceProviderRecord.logo,
                                           width: 120.0,
                                           height: 100.0,
                                           fit: BoxFit.cover,
